@@ -1,0 +1,179 @@
+id: m3.l5
+module: m3
+title: "Цифры числа"
+goal: "Разбирать число на цифры через % 10 и // 10"
+minutes: 9
+order: 5
+concepts: [digits, while, accumulation]
+steps:
+  - id: m3.l5.s1
+    type: theory
+    title: "Последняя цифра и остаток"
+    concepts: [digits, while]
+    body: |
+      Любое натуральное число можно разобрать на цифры без превращения в строку.
+
+      Последняя цифра — это остаток от деления на 10:
+
+      ```python
+      number = 473
+      print(number % 10)   # 3
+      print(number // 10)  # 47
+      ```
+
+      `%` возвращает остаток, а `//` отбрасывает дробную часть. Вместе они работают как ножницы: одна операция отделяет последнюю цифру, другая убирает её из числа.
+
+      Повторяй эти действия в цикле `while number > 0`, и число будет уменьшаться, пока не станет нулём. Для числа `0` цикл не выполнится ни разу — это тоже важно помнить.
+    example: |
+      number = 473
+      print(number % 10)
+      print(number // 10)
+    aside: "Число уменьшается на каждом шаге, поэтому цикл обязательно завершится."
+
+  - id: m3.l5.s2
+    type: theory
+    title: "Сумма, количество и переворот"
+    concepts: [digits, accumulation, while]
+    body: |
+      Один каркас решает три задачи: сумму цифр, их количество и переворот числа.
+
+      ```python
+      number = 472
+      total = 0
+      while number > 0:
+          digit = number % 10
+          total += digit
+          number //= 10
+      print(total)  # 13
+      ```
+
+      Здесь `digit` — очередная цифра справа налево. Для суммы её прибавляют к копилке, для счётчика — увеличивают `count` на единицу.
+
+      Переворот собирают так: `reverse = reverse * 10 + digit`. Каждая новая цифра сдвигает уже собранные разряды влево. Например, из `123` по шагам получаются `3`, `32` и `321`.
+    example: |
+      number = 123
+      reverse = 0
+      while number > 0:
+          reverse = reverse * 10 + number % 10
+          number //= 10
+      print(reverse)  # 321
+    aside: "Имя digit помогает не путать отдельную цифру и всё число."
+
+  - id: m3.l5.s3
+    type: predict
+    title: "Сумма цифр"
+    concepts: [digits, accumulation]
+    code: |
+      number = 472
+      total = 0
+      while number > 0:
+          total += number % 10
+          number //= 10
+      print(total)
+    options:
+      - "13"
+      - "10"
+      - "472"
+      - "7"
+    answer: 0
+    explanation: "Цикл отделяет цифры 2, 7 и 4 и складывает их: 2 + 7 + 4 = 13. После каждой итерации number уменьшается."
+
+  - id: m3.l5.s4
+    type: blank
+    title: "Сколько цифр"
+    concepts: [digits, while]
+    prompt: |
+      Программа должна посчитать количество цифр в числе.
+      Например, для `5074` ответ — `4`.
+      Заполни оба пропуска.
+    template: |
+      number = int(input())
+      count = 0
+      while number > 0:
+          count {{1}} 1
+          number {{2}} 10
+      print(count)
+    blanks:
+      - answer: "+="
+        hint: "Счётчик увеличивается на единицу"
+      - answer: "//="
+        hint: "Из числа нужно убрать последнюю цифру, сохранив целую часть"
+    explanation: "count += 1 добавляет единицу за каждую цифру, а number //= 10 отбрасывает последнюю цифру. Цикл идёт, пока число не станет нулём."
+
+  - id: m3.l5.s5
+    type: code
+    title: "Функция суммы цифр"
+    concepts: [digits, accumulation, while]
+    prompt: |
+      Напиши функцию `sum_digits(number)`, которая возвращает сумму цифр неотрицательного целого числа.
+
+      Например, `sum_digits(1234)` должна вернуть `10`, а `sum_digits(9005)` — `14`.
+      Отдельно проверь число `0`: его сумма цифр равна `0`.
+    mode: unit
+    signature: "def sum_digits(number):"
+    starter: |
+      def sum_digits(number):
+          # Верни сумму цифр числа
+          ...
+    tests:
+      - name: "1234 → 10"
+        call: "sum_digits(1234)"
+        expected: 10
+      - name: "0 → 0"
+        call: "sum_digits(0)"
+        expected: 0
+      - name: "9005 → 14"
+        call: "sum_digits(9005)"
+        expected: 14
+    hints:
+      - "Последняя цифра — это number % 10, а число без неё — number // 10."
+      - "Повторяй эти операции, пока number больше нуля, и складывай цифры в отдельную переменную."
+      - "Заведи total = 0 до цикла, внутри добавляй цифру и уменьшай number, а после цикла верни total через return."
+    solution: |
+      def sum_digits(number):
+          total = 0
+          while number > 0:
+              total += number % 10
+              number //= 10
+          return total
+    explanation: "Цикл while number > 0 разбирает число справа налево: остаток даёт цифру, целочисленное деление убирает её. Для 0 цикл не выполнится, и функция вернёт 0 — это правильный ответ."
+
+  - id: m3.l5.s6
+    type: debug
+    title: "Переворот теряет цифру"
+    concepts: [digits, while]
+    prompt: |
+      Программа должна выводить число, записанное в обратном порядке.
+      Для `1234` ожидается `4321`, для `7` — `7`.
+
+      Сейчас для `1234` получается `432`, а для `7` — `0`.
+      Найди ошибку в условии цикла и исправь её.
+    mode: io
+    broken: |
+      number = int(input())
+      reverse = 0
+      while number > 9:
+          reverse = reverse * 10 + number % 10
+          number //= 10
+      print(reverse)
+    fixtures:
+      - stdin: |
+          1234
+        stdout: |
+          4321
+      - stdin: |
+          7
+        stdout: |
+          7
+    hints:
+      - "Сколько раз выполнится цикл для числа 7 при условии number > 9?"
+      - "Условие не должно отсекать последнюю оставшуюся цифру."
+      - "Цикл должен работать, пока number больше нуля; тело цикла с reverse и // 10 уже верное."
+    solution: |
+      number = int(input())
+      reverse = 0
+      while number > 0:
+          reverse = reverse * 10 + number % 10
+          number //= 10
+      print(reverse)
+    explanation: "При условии number > 9 цикл останавливается, когда остаётся одна цифра, и не добавляет её в ответ. Условие number > 0 обрабатывает все цифры, включая последнюю."

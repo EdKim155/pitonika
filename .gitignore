@@ -1,0 +1,25 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node
+web/node_modules/
+web/dist/
+web/.vite/
+
+# App data
+data/
+!data/.gitkeep
+
+# OS
+.DS_Store
+
+# Playwright
+web/test-results/
+web/playwright-report/
+web/screenshots/
+
+# Сгенерированные ассеты Monaco (копируются при сборке)
+web/public/monaco/

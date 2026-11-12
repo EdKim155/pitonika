@@ -1,0 +1,18 @@
+import { chromium } from '@playwright/test'
+const browser = await chromium.launch({ channel: 'chrome' })
+const page = await browser.newPage({ viewport: { width: 1280, height: 900 }, deviceScaleFactor: 2 })
+const errors = []
+page.on('pageerror', (e) => errors.push(String(e)))
+await page.goto('http://127.0.0.1:8420/review', { waitUntil: 'networkidle' })
+await page.waitForTimeout(500)
+await page.getByRole('button', { name: /A Python/ }).click()
+await page.screenshot({ path: 'screenshots/26-review-card.png' })
+await page.getByRole('button', { name: 'Проверить' }).click()
+await page.waitForTimeout(600)
+await page.screenshot({ path: 'screenshots/27-review-answer.png' })
+await page.getByRole('button', { name: 'Дальше' }).click()
+await page.waitForTimeout(600)
+await page.screenshot({ path: 'screenshots/28-review-next.png' })
+console.log('errors:', errors)
+console.log('url', page.url())
+await browser.close()

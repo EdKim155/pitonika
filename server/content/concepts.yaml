@@ -1,0 +1,105 @@
+concepts:
+  - id: print
+    title: "print()"
+    description: "Вывод значения на экран."
+    module: m0
+  - id: string
+    title: "Строки"
+    description: "Текст в кавычках: 'Python' или \"Python\"."
+    module: m0
+  - id: error_reading
+    title: "Чтение ошибок"
+    description: "Умение прочитать traceback и понять, где проблема."
+    module: m0
+  - id: comments
+    title: "Комментарии"
+    description: "Строки, начинающиеся с #, Python не выполняет."
+    module: m0
+  - id: variables
+    title: "Переменные"
+    description: "Имена, которым присваиваются значения."
+    module: m1
+  - id: naming
+    title: "Имена переменных"
+    description: "Правила и хорошие привычки в названиях."
+    module: m1
+  - id: int
+    title: "Целые числа"
+    description: "Тип int: 1, 42, -7."
+    module: m1
+  - id: float
+    title: "Дробные числа"
+    description: "Тип float: 3.14, 0.5."
+    module: m1
+  - id: fstring
+    title: "f-строки"
+    description: "Вставка значений в текст: f\"Привет, {name}!\""
+    module: m1
+  - id: input
+    title: "input()"
+    description: "Чтение строки с клавиатуры."
+    module: m1
+  - id: type_conversion
+    title: "Приведение типов"
+    description: "int(), float(), str() — превращение одного типа в другой."
+    module: m1
+  - id: bool
+    title: "Логический тип"
+    description: "True и False, результаты сравнений."
+    module: m1
+  - id: operators
+    title: "Операторы"
+    description: "Арифметика, целочисленное деление // и остаток %."
+    module: m1
+  - id: operators_priority
+    title: "Приоритет операций"
+    description: "Порядок вычислений и скобки."
+    module: m1
+  - id: if
+    title: "Условия"
+    description: "if / elif / else и ветвление программы."
+    module: m2
+  - id: comparison
+    title: "Сравнения"
+    description: "==, !=, <, >, <=, >=."
+    module: m2
+  - id: logic
+    title: "Логические операторы"
+    description: "and, or, not."
+    module: m2
+  - id: nesting
+    title: "Вложенные условия"
+    description: "Условие внутри условия и отступы."
+    module: m2
+  - id: ternary
+    title: "Тернарное выражение"
+    description: "Короткая запись выбора: a if condition else b."
+    module: m2
+  - id: while
+    title: "Цикл while"
+    description: "Повторение, пока условие истинно."
+    module: m3
+  - id: for
+    title: "Цикл for"
+    description: "Перебор последовательности."
+    module: m3
+  - id: range
+    title: "range()"
+    description: "Последовательность чисел для цикла for."
+    module: m3
+  - id: break_continue
+    title: "break и continue"
+    description: "Досрочный выход и пропуск итерации."
+    module: m3
+  - id: accumulation
+    title: "Накопление"
+    description: "Сумма, счётчик и максимум в цикле."
+    module: m3
+  - id: digits
+    title: "Цифры числа"
+    description: "Разбор числа через % 10 и // 10."
+    module: m3
+  - id: nested_loops
+    title: "Вложенные циклы"
+    description: "Цикл внутри цикла."
+    module: m3

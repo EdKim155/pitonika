@@ -1,0 +1,191 @@
+id: m3.l3
+module: m3
+title: "break и continue"
+goal: "Научиться досрочно выходить из цикла и пропускать ненужные итерации"
+minutes: 10
+order: 3
+concepts: [break_continue, for]
+steps:
+  - id: m3.l3.s1
+    type: theory
+    title: "break — выйти досрочно"
+    concepts: [break_continue, for]
+    body: |
+      Иногда нужно прервать цикл раньше, чем он закончится сам. Для этого есть `break`: он сразу завершает цикл, и управление переходит к первой строке после него.
+
+      ```python
+      for number in range(1, 100):
+          if number * number > 50:
+              print(number)
+              break
+      ```
+
+      Цикл перебрал бы все 99 чисел, но нам нужно только первое подходящее — 8. `break` экономит работу и делает намерение явным: дальше искать незачем. Без него пришлось бы заводить отдельную переменную-флаг, чтобы запомнить, что ответ уже найден.
+
+      `break` часто используют в поиске: перебираем варианты и, как только нашли подходящий, выходим.
+
+      Помни: `break` выходит только из одного, самого внутреннего цикла. Строки тела после `break` тоже не выполняются — они остаются в пропущенной части итерации.
+    example: |
+      total = 0
+      for number in range(1, 10):
+          total += number
+          if total > 10:
+              print("Хватит:", total)
+              break
+    aside: "break полезен, когда ответ уже найден: зачем перебирать остальное?"
+
+  - id: m3.l3.s2
+    type: theory
+    title: "continue — пропустить итерацию"
+    concepts: [break_continue, for]
+    body: |
+      `continue` не выходит из цикла, а пропускает остаток текущей итерации и переходит к следующей. Всё, что стоит в теле после него, для этого шага не выполняется.
+
+      ```python
+      for number in range(1, 7):
+          if number % 2 == 0:
+              continue
+          print(number)
+      ```
+
+      Выведутся только нечётные: 1, 3, 5. Чётные отбрасываются до `print`.
+
+      Часто `continue` ставят в начало тела: сначала отбрасываем всё ненужное, а потом спокойно работаем с остальным. Так код читается легче.
+
+      Сравни с `break`: `continue` пропускает **одну** итерацию, а `break` прекращает **все**. Если перепутать их, программа либо закончится слишком рано, либо напечатает лишнее. При этом `continue` не завершает цикл: `for` просто берёт следующее значение.
+
+      `break` и `continue` работают только внутри цикла — снаружи Python выдаст `SyntaxError`.
+    example: |
+      for number in range(1, 6):
+          if number == 3:
+              continue
+          print(number)
+    aside: "break — «выйти совсем», continue — «пропустить и идти дальше»."
+
+  - id: m3.l3.s3
+    type: quiz
+    title: "Что увидим на экране?"
+    concepts: [break_continue, for]
+    question: "Что выведет этот код?"
+    code: |
+      for number in range(1, 6):
+          if number % 2 == 0:
+              continue
+          print(number)
+    options:
+      - "1, 2, 3, 4, 5"
+      - "1, 3, 5"
+      - "2, 4"
+      - "1, 2"
+    answers: [1]
+    explanation: "continue срабатывает на чётных числах 2 и 4: остаток итерации пропускается, до print дело не доходит. Печатаются только нечётные — 1, 3, 5."
+
+  - id: m3.l3.s4
+    type: blank
+    title: "break или continue?"
+    concepts: [break_continue, for]
+    prompt: "Заполни пропуски: отрицательные числа нужно пропустить, а на числе больше 3 — досрочно закончить цикл."
+    template: |
+      for number in range(-2, 6):
+          if number < 0:
+              {{1}}
+          if number > 3:
+              {{2}}
+          print(number)
+    blanks:
+      - answer: "continue"
+        hint: "Пропустить текущую итерацию"
+      - answer: "break"
+        hint: "Выйти из цикла совсем"
+    explanation: "Для -2 и -1 срабатывает continue, поэтому print пропускается. На числе 4 выполняется break: цикл завершается, и дальше программа не идёт. Итог — 0, 1, 2, 3."
+
+  - id: m3.l3.s5
+    type: parsons
+    title: "Ищем первое подходящее"
+    concepts: [break_continue, for]
+    prompt: "Собери программу, которая находит первое число от 1 до 20, делящееся на 7, и печатает его. Перебирать остальные числа не нужно."
+    lines:
+      - "        break"
+      - "for number in range(1, 21):"
+      - "    if number % 7 == 0:"
+      - '        print("Нашли:", number)'
+    solution:
+      - "for number in range(1, 21):"
+      - "    if number % 7 == 0:"
+      - '        print("Нашли:", number)'
+      - "        break"
+    explanation: "Условие number % 7 == 0 отбирает числа, кратные 7. Первое такое число — 7, его печатает print, а break сразу останавливает цикл, поэтому остальные числа не проверяются."
+
+  - id: m3.l3.s6
+    type: code
+    title: "Сумма чётных"
+    concepts: [break_continue, for, accumulation]
+    prompt: |
+      Спроси у пользователя число `n` и посчитай сумму чётных чисел от 1 до n включительно. Нечётные пропускай через `continue`.
+
+      Для `n = 10`: `2 + 4 + 6 + 8 + 10 = 30`.
+    mode: io
+    starter: |
+      n = int(input())
+      total = 0
+      # дальше твой код
+    fixtures:
+      - stdin: |
+          10
+        stdout: |
+          30
+      - stdin: |
+          1
+        stdout: |
+          0
+    hints:
+      - "Признак чётного числа — остаток от деления на 2 равен нулю: number % 2 == 0."
+      - "В цикле проверяй число и нечётные сразу отбрасывай через continue, а чётные прибавляй к total."
+      - "Структура: for number in range(1, n + 1): if number % 2 != 0: continue; затем total += number. Печать — после цикла."
+    solution: |
+      n = int(input())
+      total = 0
+      for number in range(1, n + 1):
+          if number % 2 != 0:
+              continue
+          total += number
+      print(total)
+    explanation: "continue пропускает нечётные, поэтому в total попадают только чётные числа. При n = 1 чётных нет вообще — цикл ничего не добавит, и напечатается 0."
+
+  - id: m3.l3.s7
+    type: code
+    title: "Первый делитель"
+    concepts: [break_continue, for]
+    prompt: |
+      Напиши функцию `first_divisor(n)`, которая возвращает наименьший делитель числа n, больший 1. Если других делителей нет (число простое), верни само n.
+
+      Используй `break`, чтобы остановить перебор, как только делитель найден.
+    mode: unit
+    signature: "first_divisor(n)"
+    starter: |
+      def first_divisor(n):
+          result = n
+          # допиши перебор делителей
+    tests:
+      - name: "Составное 9"
+        call: "first_divisor(9)"
+        expected: 3
+      - name: "Составное 25"
+        call: "first_divisor(25)"
+        expected: 5
+      - name: "Простое 7"
+        call: "first_divisor(7)"
+        expected: 7
+    hints:
+      - "Делители проверяй по возрастанию — тогда первый найденный и будет наименьшим."
+      - "range(2, n) перебирает возможные делители. Если n % divisor == 0 — запомни divisor и остановись."
+      - "Структура: result = n; for divisor in range(2, n): if n % divisor == 0: result = divisor; break. В конце верни result."
+    solution: |
+      def first_divisor(n):
+          result = n
+          for divisor in range(2, n):
+              if n % divisor == 0:
+                  result = divisor
+                  break
+          return result
+    explanation: "Перебор идёт от 2 вверх, поэтому найденный делитель всегда наименьший. break останавливает цикл сразу. Если делителей не нашлось (7 — простое), result остаётся равен n."

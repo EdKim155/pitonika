@@ -1,0 +1,184 @@
+id: m3.l2
+module: m3
+title: "Цикл for и range"
+goal: "Научиться перебирать числа через for и управлять границами range"
+minutes: 9
+order: 2
+concepts: [for, range]
+steps:
+  - id: m3.l2.s1
+    type: theory
+    title: "for перебирает значения"
+    concepts: [for, range]
+    body: |
+      Когда число повторений известно заранее, удобнее `for`. Он берёт значения из последовательности по одному и на каждом выполняет тело цикла:
+
+      ```python
+      for number in range(5):
+          print(number)
+      ```
+
+      Вывод: 0, 1, 2, 3, 4 — каждое число на новой строке.
+
+      `range(5)` — последовательность из пяти чисел, от 0 до 4. Правая граница **не включается**: `range(5)` останавливается перед 5. Такое правило «не включая последнее» встречается в Python постоянно.
+
+      Переменная цикла (`number`) на каждой итерации получает новое значение. Имя можно выбрать любое — `i`, `number`, `step` — главное, чтобы оно отражало смысл. Если сами числа не нужны, а повторить действие нужно ровно 3 раза, пишут `for _ in range(3):`.
+    example: |
+      for i in range(3):
+          print("Шаг", i)
+    aside: "range(5) — это 0, 1, 2, 3, 4. Пятёрки в выводе не будет."
+
+  - id: m3.l2.s2
+    type: theory
+    title: "Три формы range"
+    concepts: [for, range]
+    body: |
+      У `range` есть три формы записи:
+
+      - `range(stop)` — от 0 до stop - 1;
+      - `range(start, stop)` — от start до stop - 1;
+      - `range(start, stop, step)` — с шагом step.
+
+      ```python
+      for number in range(2, 11, 2):
+          print(number)
+      ```
+
+      Здесь start = 2, stop = 11, step = 2: получаем 2, 4, 6, 8, 10.
+
+      Обрати внимание: stop не входит в последовательность ни в одной из трёх форм записи.
+
+      Шаг может быть отрицательным — тогда счёт идёт вниз, и `range(5, 0, -1)` даёт 5, 4, 3, 2, 1. Важно: при отрицательном шаге start должен быть больше stop, иначе последовательность окажется пустой и цикл не выполнится ни разу. С числами из range можно не только печатать: их складывают, считают и сравнивают.
+    example: |
+      for number in range(5, 0, -1):
+          print(number)
+    aside: "Пустой range — не ошибка. Тело просто ни разу не выполнится."
+
+  - id: m3.l2.s3
+    type: predict
+    title: "Что выведет?"
+    concepts: [for, range]
+    code: |
+      for number in range(1, 8, 3):
+          print(number)
+    options:
+      - "1, 2, 3, 4, 5, 6, 7"
+      - "1, 4, 7"
+      - "1, 4, 7, 10"
+      - "0, 3, 6"
+    answer: 1
+    explanation: "start = 1, stop = 8 (не включая), step = 3. Получаем 1, затем 4, затем 7. Следующее число было бы 10 — оно уже за границей."
+
+  - id: m3.l2.s4
+    type: blank
+    title: "Обратный отсчёт"
+    concepts: [for, range]
+    prompt: "Допиши вызов range так, чтобы программа вывела 10, 8, 6, 4, 2 — каждое число с новой строки."
+    template: |
+      for number in range({{1}}, {{2}}, {{3}}):
+          print(number)
+    blanks:
+      - answer: "10"
+        hint: "С какого числа начинаем?"
+      - answer: "0"
+        accept: ["1"]
+        hint: "Где остановиться? Помни: stop не включается"
+      - answer: "-2"
+        hint: "На сколько число уменьшается за шаг?"
+    explanation: "range(10, 0, -2) идёт от 10 вниз, не доходя до 0: 10, 8, 6, 4, 2. Вместо 0 можно взять 1 — последним шагом всё равно окажется 2, потому что следующее число 0 меньше границы."
+
+  - id: m3.l2.s5
+    type: parsons
+    title: "Сумма через for"
+    concepts: [for, range, accumulation]
+    prompt: "Собери программу, которая складывает числа от 1 до 5 и печатает результат 15."
+    lines:
+      - "    total += number"
+      - "total = 0"
+      - "print(total)"
+      - "for number in range(1, 6):"
+    solution:
+      - "total = 0"
+      - "for number in range(1, 6):"
+      - "    total += number"
+      - "print(total)"
+    explanation: "for перебирает числа 1, 2, 3, 4, 5: range(1, 6) не включает 6, поэтому пятёрка попадает в сумму. Накопитель total меняется внутри цикла, а печать стоит без отступа — после него."
+
+  - id: m3.l2.s6
+    type: code
+    title: "Квадраты от 1 до n"
+    concepts: [for, range]
+    prompt: |
+      Спроси у пользователя число `n` и выведи квадраты всех чисел от 1 до n включительно — по одному на строку.
+
+      Для `n = 4` должно получиться:
+
+      ```
+      1
+      4
+      9
+      16
+      ```
+    mode: io
+    starter: |
+      n = int(input())
+      # дальше твой код
+    fixtures:
+      - stdin: |
+          4
+        stdout: |
+          1
+          4
+          9
+          16
+      - stdin: |
+          1
+        stdout: |
+          1
+    hints:
+      - "Квадрат числа — это number * number или number ** 2."
+      - "range должен покрыть числа от 1 до n включительно, значит правая граница — n + 1."
+      - "Структура: for number in range(1, n + 1): внутри print(number ** 2)."
+    solution: |
+      n = int(input())
+      for number in range(1, n + 1):
+          print(number ** 2)
+    explanation: "range(1, n + 1) заканчивается на n включительно. При n = 1 цикл выполнится один раз и напечатает 1 — краевой случай."
+
+  - id: m3.l2.s7
+    type: code
+    title: "Функция sum_range"
+    concepts: [for, range, accumulation]
+    prompt: |
+      Напиши функцию `sum_range(start, stop)`, которая с помощью `for` возвращает сумму чисел от start до stop - 1 включительно.
+
+      Ничего не печатай — просто верни результат через `return`.
+
+      Например, `sum_range(1, 6)` возвращает 15, а `sum_range(5, 5)` — 0.
+    mode: unit
+    signature: "sum_range(start, stop)"
+    starter: |
+      def sum_range(start, stop):
+          total = 0
+          # допиши цикл и верни результат
+    tests:
+      - name: "От 1 до 5"
+        call: "sum_range(1, 6)"
+        expected: 15
+      - name: "Пустой диапазон"
+        call: "sum_range(5, 5)"
+        expected: 0
+      - name: "Старт с отрицательного числа"
+        call: "sum_range(-2, 2)"
+        expected: -2
+    hints:
+      - "Накопитель total уже заведён. Осталось добавить в него каждое число диапазона."
+      - "Перебирай числа через range(start, stop) и прибавляй их к total. После цикла верни total."
+      - "Структура: for number in range(start, stop): total += number, затем return total."
+    solution: |
+      def sum_range(start, stop):
+          total = 0
+          for number in range(start, stop):
+              total += number
+          return total
+    explanation: "range(start, stop) перебирает ровно нужный диапазон и не включает stop. Если start равен stop, тело цикла не выполнится ни разу и функция вернёт 0 — это правильное поведение."

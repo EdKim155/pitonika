@@ -1,0 +1,7 @@
+id: m2
+title: "Ветвления"
+subtitle: "Программа принимает решения"
+number: 2
+color: "violet"
+icon: "git-branch"
+description: "if, elif, else, логика и вложенные условия."
